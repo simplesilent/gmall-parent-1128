@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.gmall.product.mapper.BaseAttrInfoMapper">
+
+    <resultMap id="getAttrInfoListMap" type="com.atguigu.gmall.model.product.BaseAttrInfo" autoMapping="true">
+        <!--result：表示映射普通字段-->
+        <result property="id" column="id"></result>
+        <!--<id property="id" column="bai.id"></id>-->
+        <!--ofType:返回的数据类型-->
+        <collection property="attrValueList" ofType="com.atguigu.gmall.model.product.BaseAttrValue" autoMapping="true">
+            <id property="id" column="attr_value_id"></id>
+        </collection>
+    </resultMap>
+
+    <!--bai.id as bai_id,bav.id as bav_id-->
+    <select id="getAttrInfoList" resultMap="getAttrInfoListMap">
+        SELECT
+        bai.id,
+        bai.attr_name,
+        bai.category_id,
+        bai.category_level,
+        bav.id attr_value_id,
+        bav.value_name,
+        bav.attr_id
+        FROM base_attr_info bai
+        INNER JOIN base_attr_value bav ON bai.id = bav.attr_id
+        <where>
+            <if test="category1Id != null and category1Id != 0">
+                or (bai.category_id = #{category1Id} AND bai.category_level = 1)
+            </if>
+            <if test="category2Id != null and category2Id != 0">
+                or (bai.category_id = #{category2Id} AND bai.category_level = 2)
+            </if>
+            <if test="category3Id != null and category3Id != 0">
+                or (bai.category_id = #{category3Id} AND bai.category_level = 3)
+            </if>
+        </where>
+        order by bai.category_id,bai.id
+    </select>
+
+    <!--根据skuId查询对应平台属性值-->
+    <select id="selectAttrList" resultType="SearchAttr">
+      SELECT bav.attr_id,bai.attr_name,bav.value_name attr_value
+      FROM base_attr_info bai,base_attr_value bav,sku_attr_value sav
+      WHERE bai.id = bav.attr_id
+      AND bav.id = sav.value_id
+      AND sav.sku_id = #{skuId}
+    </select>
+
+
+</mapper>

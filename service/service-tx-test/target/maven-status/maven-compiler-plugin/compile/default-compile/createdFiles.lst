@@ -1,0 +1,8 @@
+com\atguigu\gmall\test\thread\MyThreadTest.class
+com\atguigu\gmall\test\service\TestService.class
+com\atguigu\gmall\test\ServiceTestApplication.class
+com\atguigu\gmall\test\thread\CategroyCallable.class
+com\atguigu\gmall\test\controler\TestController.class
+com\atguigu\gmall\test\thread\PriceCallable.class
+com\atguigu\gmall\test\thread\CompletableFutureDemo.class
+com\atguigu\gmall\test\service\impl\TestServiceImpl.class
