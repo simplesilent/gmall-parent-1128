@@ -1,6 +1,7 @@
 package com.atguigu.gmall.order.client;
 
 import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.model.order.OrderInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,6 @@ public interface OrderFeignClient {
     Result<Map<String, Object>> trade();
 
     @GetMapping("/api/order/auth/getOrderInfo")
-    Result getOrderInfo(@RequestParam("orderId") Long orderId);
+    Result<OrderInfo> getOrderInfo(@RequestParam("orderId") Long orderId);
 
 }

@@ -3,10 +3,12 @@ package com.atguigu.gmall.cart.client;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.cart.CartInfo;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -28,4 +30,7 @@ public interface CartFeignClient {
 
     @GetMapping("/api/cart/getCartCheckedList")
     Result<List<CartInfo>> getCartCheckedList();
+
+    @DeleteMapping("/api/cart/deleteCart/{skuId}")
+    Result deleteCart(@PathVariable("skuId") Long skuId);
 }

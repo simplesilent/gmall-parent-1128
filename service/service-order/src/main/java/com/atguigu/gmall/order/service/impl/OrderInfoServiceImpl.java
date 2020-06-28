@@ -1,7 +1,9 @@
 package com.atguigu.gmall.order.service.impl;
 
+import com.atguigu.gmall.cart.client.CartFeignClient;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.common.util.HttpClientUtil;
+import com.atguigu.gmall.model.cart.CartInfo;
 import com.atguigu.gmall.model.enums.OrderStatus;
 import com.atguigu.gmall.model.enums.ProcessStatus;
 import com.atguigu.gmall.model.order.OrderDetail;
@@ -41,6 +43,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Autowired
     private ProductFeignClient productFeignClient;
+
+    @Autowired
+    private CartFeignClient cartFeignClient;
 
     @Value("${ware.url}")
     private String WARE_URL;
@@ -153,6 +158,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 orderDetail.setOrderId(orderInfoId);
                 orderDetailMapper.insert(orderDetail);
             }
+        }
+
+        // 订单生成功，删除购物中的数据
+        for (OrderDetail orderDetail : orderInfo.getOrderDetailList()) {
+            cartFeignClient.deleteCart(orderDetail.getSkuId());
         }
 
         return orderInfoId;

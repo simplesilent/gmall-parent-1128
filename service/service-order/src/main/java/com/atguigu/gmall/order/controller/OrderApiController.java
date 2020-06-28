@@ -62,7 +62,7 @@ public class OrderApiController {
         // 保存订单
         Long orderId = orderInfoService.saveOrderInfo(orderInfo,userId);
         if (orderId != null) {
-            // TODO 订单生成成功，删除已提交订单的商品
+            // TODO 订单生成成功，删除购物车中提交的商品
             return Result.ok(orderId);
         } else {
             return Result.fail().message("创建订单失败");
@@ -73,8 +73,6 @@ public class OrderApiController {
     @GetMapping("/auth/trade")
     Result<Map<String, Object>> trade(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>(4);
-
-        // TODO 购物车结算前，合并购物车功能
 
         // 1. 获取用户收货地址
         Result<List<UserAddress>> result = userFeignClient.getUserAddressList();

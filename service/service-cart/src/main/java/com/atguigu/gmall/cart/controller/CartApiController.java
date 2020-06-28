@@ -57,10 +57,7 @@ public class CartApiController {
         String userId = AuthContextHolder.getUserId(request);
         String userTempId = AuthContextHolder.getUserTempId(request);
 
-        if (StringUtils.isEmpty(userId)) {
-            userId = userTempId;
-        }
-        List<CartInfo> cartInfos = cartInoService.cartList(userId);
+        List<CartInfo> cartInfos = cartInoService.cartList(userId,userTempId);
         return Result.ok(cartInfos);
     }
 
