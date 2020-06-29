@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
@@ -78,12 +79,12 @@ public class MQProducerAckConfig implements RabbitTemplate.ConfirmCallback, Rabb
     /**三次重试机会*/
     private void addRetry(GmallCorrelationData gmallCorrelationData) {
         int retryCount = gmallCorrelationData.getRetryCount();
-        gmallCorrelationData.setRetryCount(retryCount++);
+        gmallCorrelationData.setRetryCount(++retryCount);
         if (retryCount <= 3) {
             // 将需要补偿的消息id放入Redis中
             redisTemplate.opsForList().leftPush(MqConst.MQ_KEY_PREFIX, gmallCorrelationData.getId());
             // 将缓存中的已有的次数更新
-            redisTemplate.opsForValue().set(gmallCorrelationData.getId(), gmallCorrelationData);
+            redisTemplate.opsForValue().set(gmallCorrelationData.getId(), JSON.toJSONString(gmallCorrelationData),4, TimeUnit.HOURS);
         }
     }
 
