@@ -40,6 +40,8 @@ public class PaymentController {
         PaymentInfo paymentInfo = new PaymentInfo();
         String out_trade_no = request.getParameter("out_trade_no");
         String trade_no = request.getParameter("trade_no");
+        // 获得签名并且验证签名
+        String sign = request.getParameter("sign");
 
         paymentInfo.setCallbackContent(request.getQueryString());
         paymentInfo.setCallbackTime(new Date());
