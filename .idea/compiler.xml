@@ -10,23 +10,27 @@
         <module name="service-cart" />
         <module name="web-util" />
         <module name="ware-manage" />
+        <module name="serivce-payment-client" />
         <module name="common-util" />
         <module name="service-order" />
-        <module name="service-user-client" />
+        <module name="server-gateway" />
         <module name="service-tx-test" />
         <module name="service-util" />
+        <module name="rabbitmq-util" />
         <module name="service-user" />
         <module name="service-payment" />
         <module name="web-all" />
         <module name="service-order-client" />
         <module name="service-item" />
+        <module name="service-task" />
         <module name="service-cart-client" />
         <module name="model" />
         <module name="service-item-client" />
         <module name="service-list-client" />
         <module name="service-product-client" />
+        <module name="service-mq" />
         <module name="service-list" />
-        <module name="server-gateway" />
+        <module name="service-user-client" />
         <module name="service-product" />
       </profile>
     </annotationProcessing>
@@ -35,6 +39,8 @@
       <module name="common-util" target="1.8" />
       <module name="gmall-parent-1128" target="1.8" />
       <module name="model" target="1.8" />
+      <module name="rabbitmq-util" target="1.8" />
+      <module name="serivce-payment-client" target="1.8" />
       <module name="server-gateway" target="1.8" />
       <module name="service" target="1.8" />
       <module name="service-cart" target="1.8" />
@@ -44,11 +50,13 @@
       <module name="service-item-client" target="1.8" />
       <module name="service-list" target="1.8" />
       <module name="service-list-client" target="1.8" />
+      <module name="service-mq" target="1.8" />
       <module name="service-order" target="1.8" />
       <module name="service-order-client" target="1.8" />
       <module name="service-payment" target="1.8" />
       <module name="service-product" target="1.8" />
       <module name="service-product-client" target="1.8" />
+      <module name="service-task" target="1.8" />
       <module name="service-tx-test" target="1.8" />
       <module name="service-user" target="1.8" />
       <module name="service-user-client" target="1.8" />
@@ -63,6 +71,8 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="common-util" options="-parameters" />
       <module name="model" options="-parameters" />
+      <module name="rabbitmq-util" options="-parameters" />
+      <module name="serivce-payment-client" options="-parameters" />
       <module name="server-gateway" options="-parameters" />
       <module name="service-cart" options="-parameters" />
       <module name="service-cart-client" options="-parameters" />
@@ -70,11 +80,13 @@
       <module name="service-item-client" options="-parameters" />
       <module name="service-list" options="-parameters" />
       <module name="service-list-client" options="-parameters" />
+      <module name="service-mq" options="-parameters" />
       <module name="service-order" options="-parameters" />
       <module name="service-order-client" options="-parameters" />
       <module name="service-payment" options="-parameters" />
       <module name="service-product" options="-parameters" />
       <module name="service-product-client" options="-parameters" />
+      <module name="service-task" options="-parameters" />
       <module name="service-tx-test" options="-parameters" />
       <module name="service-user" options="-parameters" />
       <module name="service-user-client" options="-parameters" />
