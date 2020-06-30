@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/common" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/common-util" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/common-util/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/rabbitmq-util/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/service-util" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/service-util/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/web-util" charset="UTF-8" />
@@ -14,6 +15,7 @@
     <file url="file://$PROJECT_DIR$/server-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-client/serivce-payment-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-client/service-cart-client" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-client/service-cart-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-client/service-item-client" charset="UTF-8" />
@@ -31,10 +33,12 @@
     <file url="file://$PROJECT_DIR$/service/service-item/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-list" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-list/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-mq/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-payment/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-product" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-task/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-tx-test" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-tx-test/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-user" charset="UTF-8" />
