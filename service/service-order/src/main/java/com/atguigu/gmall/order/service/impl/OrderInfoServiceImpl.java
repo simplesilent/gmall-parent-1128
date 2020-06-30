@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
@@ -58,8 +59,38 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Override
     public void sendOrderStatus(OrderInfo orderInfo) {
-        // TODO 发送消息给仓库
-        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_WARE_STOCK, MqConst.ROUTING_WARE_STOCK, JSON.toJSONString(1));
+        // 将orderInfo中部分数据转换为消费者需要的JSON数据
+        String wareJosn = OrderInfoToJson(orderInfo);
+        // 发送消息给仓库
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_WARE_STOCK, MqConst.ROUTING_WARE_STOCK, wareJosn);
+    }
+
+    /**将orderInfd数据转化为JSON数据*/
+    private String OrderInfoToJson(OrderInfo orderInfo) {
+        Map<String, Object> map = new HashMap<>();
+        // 将orderInfo数据转化为map
+        map.put("orderId", orderInfo.getId());
+        map.put("consignee", orderInfo.getConsignee());
+        map.put("consigneeTel", orderInfo.getConsigneeTel());
+        map.put("deliveryAddress", orderInfo.getDeliveryAddress());
+        map.put("orderComment", orderInfo.getOrderComment());
+        map.put("paymentWay", "2");
+        map.put("orderBody", orderInfo.getTradeBody());
+        map.put("wareId", orderInfo.getWareId());
+
+        // 获取订单详情
+        List<OrderDetail> orderDetailList = orderInfo.getOrderDetailList();
+        List detailsList = orderDetailList.stream().map(orderDetail -> {
+            Map<String, Object> detailMap = new HashMap<>();
+            detailMap.put("skuId",orderDetail.getSkuId());
+            detailMap.put("skuName",orderDetail.getSkuName());
+            detailMap.put("skuNum",orderDetail.getSkuNum());
+            return detailMap;
+        }).collect(Collectors.toList());
+
+        map.put("details",detailsList);
+
+        return JSON.toJSONString(map);
     }
 
     /**更新订单信息*/
