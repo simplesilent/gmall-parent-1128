@@ -1,9 +1,11 @@
 package com.atguigu.gmall.order.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.cart.client.CartFeignClient;
 import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.common.service.RabbitService;
 import com.atguigu.gmall.common.util.HttpClientUtil;
-import com.atguigu.gmall.model.cart.CartInfo;
+import com.atguigu.gmall.constant.MqConst;
 import com.atguigu.gmall.model.enums.OrderStatus;
 import com.atguigu.gmall.model.enums.ProcessStatus;
 import com.atguigu.gmall.model.order.OrderDetail;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -49,6 +52,23 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Value("${ware.url}")
     private String WARE_URL;
+
+    @Autowired
+    private RabbitService rabbitService;
+
+    @Override
+    public void sendOrderStatus(OrderInfo orderInfo) {
+        // TODO 发送消息给仓库
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_WARE_STOCK, MqConst.ROUTING_WARE_STOCK, JSON.toJSONString(1));
+    }
+
+    /**更新订单信息*/
+    @Override
+    public void updatePayment(OrderInfo orderInfo) {
+        orderInfo.setOrderStatus(OrderStatus.PAID.getComment());
+        orderInfo.setProcessStatus(ProcessStatus.PAID.getComment());
+        orderInfoMapper.updateById(orderInfo);
+    }
 
     /**根据订单id获取订单信息*/
     @Override
@@ -90,13 +110,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public String getTradeNo(String userId) {
         String tradeNo = UUID.randomUUID().toString().replace("-", "");
-        // TODO redisTemplate 的了解
         // 存放到缓存
         redisTemplate.opsForValue().set("user:"+userId+":tradeNo",tradeNo,15, TimeUnit.MINUTES);
         return tradeNo;
     }
 
     /**保存订单*/
+    @Transactional
     @Override
     public Long saveOrderInfo(OrderInfo orderInfo,String userId) {
         // 查询用户地址

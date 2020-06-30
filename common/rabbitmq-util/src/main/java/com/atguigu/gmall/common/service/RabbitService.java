@@ -37,4 +37,28 @@ public class RabbitService {
 
         return true;
     }
+
+    public boolean sendDelayMessage(String exchange, String routingKey, Object message,int delayTime) {
+
+        // 封装一个数据GmallCorrelationData，放入缓存
+        GmallCorrelationData gmallCorrelationData = new GmallCorrelationData();
+        String correlationDataId = UUID.randomUUID().toString();
+        gmallCorrelationData.setId(correlationDataId);
+        gmallCorrelationData.setExchange(exchange);
+        gmallCorrelationData.setRoutingKey(routingKey);
+        gmallCorrelationData.setMessage(message);
+        gmallCorrelationData.setDelay(true);
+        gmallCorrelationData.setDelayTime(delayTime);
+
+        // 保存原始文本和id到缓存，方便出现出现问题处理
+        redisTemplate.opsForValue().set(correlationDataId,JSON.toJSONString(gmallCorrelationData),4, TimeUnit.HOURS);
+
+        // 使用携带CorrelationData有消息id的队列发送
+        rabbitTemplate.convertAndSend(exchange, routingKey, message, message1 -> {
+            message1.getMessageProperties().setDelay(delayTime);
+            return message1;
+        }, gmallCorrelationData);
+
+        return true;
+    }
 }

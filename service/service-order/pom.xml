@@ -31,11 +31,11 @@
             <version>1.0</version>
         </dependency>
 
-        <!--mybatis-plus-->
-       <!-- <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>-->
+        <dependency>
+            <groupId>com.atguigu.gmall</groupId>
+            <artifactId>rabbitmq-util</artifactId>
+            <version>1.0</version>
+        </dependency>
 
     </dependencies>
 

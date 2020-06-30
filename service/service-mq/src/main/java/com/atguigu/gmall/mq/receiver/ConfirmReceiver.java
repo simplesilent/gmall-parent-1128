@@ -21,6 +21,8 @@ public class ConfirmReceiver {
                     )
     public void process(Message message, Channel channel) {
         System.out.println("RabbitListener:" + new String(message.getBody()));
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+        // channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,true);
     }
 
 }

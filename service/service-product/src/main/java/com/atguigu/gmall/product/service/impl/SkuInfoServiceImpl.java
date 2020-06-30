@@ -1,9 +1,10 @@
 package com.atguigu.gmall.product.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.atguigu.gmall.common.cache.GmallCache;
 import com.atguigu.gmall.common.constant.RedisConst;
+import com.atguigu.gmall.common.service.RabbitService;
+import com.atguigu.gmall.constant.MqConst;
 import com.atguigu.gmall.list.client.ListFeignClient;
 import com.atguigu.gmall.model.product.*;
 import com.atguigu.gmall.product.mapper.*;
@@ -11,9 +12,7 @@ import com.atguigu.gmall.product.service.SkuInfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -53,9 +52,11 @@ public class SkuInfoServiceImpl implements SkuInfoService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-
     @Autowired
     private ListFeignClient listFeignClient;
+
+    @Autowired
+    private RabbitService rabbitService;
 
     /**
      * 根据SPU的id获取销售属性集合
@@ -146,7 +147,9 @@ public class SkuInfoServiceImpl implements SkuInfoService {
         skuInfo.setIsSale(1);
 
         // 通过调用service-list实现将上架商品信息保存到es中
-        listFeignClient.upperGoods(skuId);
+        //listFeignClient.upperGoods(skuId);
+        // 使用消息队列
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_GOODS, MqConst.ROUTING_GOODS_UPPER, skuId);
 
         skuInfoMapper.updateById(skuInfo);
     }
@@ -163,7 +166,9 @@ public class SkuInfoServiceImpl implements SkuInfoService {
         skuInfo.setIsSale(0);
 
         // 通过调用service-list实现将下架商品信息从es中删除
-        listFeignClient.lowerGoods(skuId);
+        //listFeignClient.lowerGoods(skuId);
+        // 使用消息队列
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_GOODS, MqConst.ROUTING_GOODS_LOWER, skuId);
 
         skuInfoMapper.updateById(skuInfo);
     }

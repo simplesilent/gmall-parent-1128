@@ -4,10 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.common.service.RabbitService;
+import com.atguigu.gmall.constant.MqConst;
 import com.atguigu.gmall.model.enums.PaymentStatus;
 import com.atguigu.gmall.model.enums.PaymentType;
-import com.atguigu.gmall.model.enums.PaymentWay;
 import com.atguigu.gmall.model.order.OrderInfo;
 import com.atguigu.gmall.model.payment.PaymentInfo;
 import com.atguigu.gmall.order.client.OrderFeignClient;
@@ -39,6 +39,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private PaymentInfoMapper paymentInfoMapper;
 
+    @Autowired
+    private RabbitService rabbitService;
+
     /**
      * 更新支付信息
      */
@@ -47,6 +50,11 @@ public class PaymentServiceImpl implements PaymentService {
         QueryWrapper<PaymentInfo> wrapper = new QueryWrapper<>();
         wrapper.eq("out_trade_no", paymentInfo.getOutTradeNo());
         paymentInfoMapper.update(paymentInfo, wrapper);
+
+        // 发送支付成功的队列，让订单消费修改订单的状态
+        PaymentInfo paymentInfo1 = paymentInfoMapper.selectOne(wrapper);
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_PAYMENT_PAY, MqConst.ROUTING_PAYMENT_PAY, paymentInfo1.getOrderId());
+
     }
 
     @Override

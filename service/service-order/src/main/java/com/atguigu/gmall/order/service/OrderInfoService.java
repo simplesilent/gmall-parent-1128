@@ -17,4 +17,7 @@ public interface OrderInfoService {
     OrderInfo getOrderInfo(Long orderId);
 
 
+    void updatePayment(OrderInfo orderInfo);
+
+    void sendOrderStatus(OrderInfo orderInfo);
 }

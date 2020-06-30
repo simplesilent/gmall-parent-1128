@@ -2,7 +2,6 @@ package com.atguigu.gmall.order.controller;
 
 import com.atguigu.gmall.cart.client.CartFeignClient;
 import com.atguigu.gmall.common.result.Result;
-import com.atguigu.gmall.common.result.ResultCodeEnum;
 import com.atguigu.gmall.common.util.AuthContextHolder;
 import com.atguigu.gmall.model.cart.CartInfo;
 import com.atguigu.gmall.model.order.OrderDetail;
@@ -62,7 +61,6 @@ public class OrderApiController {
         // 保存订单
         Long orderId = orderInfoService.saveOrderInfo(orderInfo,userId);
         if (orderId != null) {
-            // TODO 订单生成成功，删除购物车中提交的商品
             return Result.ok(orderId);
         } else {
             return Result.fail().message("创建订单失败");
