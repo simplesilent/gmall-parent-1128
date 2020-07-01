@@ -26,6 +26,11 @@ public class ScheduledTask {
     @Autowired
     private RabbitService rabbitService;
 
+    @Scheduled(cron = "0 23 18 * * ?")
+    public void task1() {
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_TASK, MqConst.ROUTING_TASK_1, "");
+    }
+
     @Scheduled(cron = "0/30 * * * * ?")
     public void task() {
 
