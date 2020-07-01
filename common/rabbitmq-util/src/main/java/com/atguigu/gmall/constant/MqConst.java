@@ -50,28 +50,24 @@ public class MqConst {
     public static final String QUEUE_PAYMENT_CLOSE  = "queue.payment.close";
 
     /**
-     * 定时任务
+     * 定时任务，发送入库通知
      */
     public static final String EXCHANGE_DIRECT_TASK = "exchange.direct.task";
     public static final String ROUTING_TASK_1 = "seckill.task.1";
-    //队列
     public static final String QUEUE_TASK_1  = "queue.task.1";
 
 
     /**
-     * 秒杀
+     * 秒杀，用于通知创建秒杀订单
      */
     public static final String EXCHANGE_DIRECT_SECKILL_USER = "exchange.direct.seckill.user";
     public static final String ROUTING_SECKILL_USER = "seckill.user";
-    //队列
     public static final String QUEUE_SECKILL_USER  = "queue.seckill.user";
 
     /**
      * 定时任务
      */
-
     public static final String ROUTING_TASK_18 = "seckill.task.18";
-    //队列
     public static final String QUEUE_TASK_18  = "queue.task.18";
 
 
