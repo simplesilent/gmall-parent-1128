@@ -92,6 +92,7 @@ public class MQProducerAckConfig implements RabbitTemplate.ConfirmCallback, Rabb
             // 将缓存中的已有的次数更新
             redisTemplate.opsForValue().set(gmallCorrelationData.getId(), JSON.toJSONString(gmallCorrelationData),4, TimeUnit.HOURS);
         }
+        // 超过三次做其他处理。。。。
     }
 
 }

@@ -29,7 +29,7 @@ public class RedisConst {
 
     //秒杀商品前缀
     public static final String SECKILL_GOODS = "seckill:goods"; // 等待秒杀的商品信息
-    public static final String SECKILL_ORDERS = "seckill:orders"; // 秒杀公共创建的订单
+    public static final String SECKILL_ORDERS = "seckill:orders"; // 秒杀成功创建的订单
     public static final String SECKILL_ORDERS_USERS = "seckill:orders:users"; // 秒杀成功已经创建订单的用户
     public static final String SECKILL_STOCK_PREFIX = "seckill:stock:"; // 进入秒杀的库存
     public static final String SECKILL_USER = "seckill:user:"; // 判断用户是否已经创建过订单
