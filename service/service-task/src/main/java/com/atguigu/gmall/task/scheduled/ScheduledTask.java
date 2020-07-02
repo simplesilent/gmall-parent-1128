@@ -5,6 +5,7 @@ import com.atguigu.gmall.common.service.RabbitService;
 import com.atguigu.gmall.constant.MqConst;
 import com.atguigu.gmall.entity.GmallCorrelationData;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -24,9 +25,12 @@ public class ScheduledTask {
     private RedisTemplate redisTemplate;
 
     @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
     private RabbitService rabbitService;
 
-    @Scheduled(cron = "0 23 18 * * ?")
+    @Scheduled(cron = "0 20 11 * * ?")
     public void task1() {
         rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_TASK, MqConst.ROUTING_TASK_1, "");
     }
@@ -41,7 +45,7 @@ public class ScheduledTask {
             String gmallCorrelationDataStr = (String) redisTemplate.opsForValue().get(correlationDataId);
             GmallCorrelationData gmallCorrelationData = JSON.parseObject(gmallCorrelationDataStr, GmallCorrelationData.class);
             // 再次发送
-            rabbitService.sendMessage(gmallCorrelationData.getExchange(), gmallCorrelationData.getRoutingKey(), gmallCorrelationData.getMessage());
+            rabbitTemplate.convertAndSend(gmallCorrelationData.getExchange(), gmallCorrelationData.getRoutingKey(), gmallCorrelationData.getMessage(), gmallCorrelationData);
         }
 
     }

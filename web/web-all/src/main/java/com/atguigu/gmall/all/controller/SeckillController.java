@@ -39,7 +39,8 @@ public class SeckillController {
 
     /**跳转排队页*/
     @RequestMapping("/seckill/queue.html")
-    public String queue(@RequestParam("skuId") String skuId, @RequestParam("skuIdStr") String skuIdStr, HttpServletRequest request) {
+    public String queue(@RequestParam("skuId") String skuId, @RequestParam("skuIdStr") String skuIdStr,
+                        HttpServletRequest request,Model model) {
         String userId = AuthContextHolder.getUserId(request);
         String skuIdStrOfServer = MD5.encrypt(userId);
         // 比较下单码是否相同，防止用户直接跳到秒杀的页面
@@ -47,10 +48,12 @@ public class SeckillController {
             request.setAttribute("skuId",skuId);
             request.setAttribute("skuIdStr",skuIdStr);
             return "seckill/queue";
+        } else {
+            model.addAttribute("message", "非法请求");
+            return "seckill/fail";
         }
-        return "seckill/fail";
+
     }
 
-    /**进入秒杀页*/
 
 }
