@@ -52,7 +52,7 @@ public class SeckillReceiver {
             // 3.使用Redis发布消息---通知各个服务器商品已经发布
             redisTemplate.convertAndSend("seckillpush",seckillGood.getSkuId()+":1");
         }
-        //channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 
     /**消费秒杀的mq消息，再次验证状态位，用户是否已经下单，判断库存，保存预下单的用户Id以及商品Id，

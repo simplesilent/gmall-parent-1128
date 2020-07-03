@@ -5,6 +5,7 @@ import com.atguigu.gmall.activity.service.SeckillGoodsService;
 import com.atguigu.gmall.activity.util.CacheHelper;
 import com.atguigu.gmall.common.constant.RedisConst;
 import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.common.result.ResultCodeEnum;
 import com.atguigu.gmall.common.util.MD5;
 import com.atguigu.gmall.model.activity.OrderRecode;
 import com.atguigu.gmall.model.activity.SeckillGoods;
@@ -34,6 +35,7 @@ public class SeckillGoodsServiceImpl extends ServiceImpl<SeckillGoodsMapper,Seck
         return (SeckillGoods) redisTemplate.opsForHash().get(RedisConst.SECKILL_GOODS, skuId);
     }
 
+    /**秒杀，生成预订单*/
     @Override
     public void seckillOrder(Long skuId, String userId) {
         // 1. 验证状态位，产品可能随时售罄，mq队列里面可能堆积了十万数据，但是已经售罄了，那么后续流程就没有必要再走了
@@ -67,15 +69,55 @@ public class SeckillGoodsServiceImpl extends ServiceImpl<SeckillGoodsMapper,Seck
         // 将预订单存到Redis中
         redisTemplate.opsForHash().put(RedisConst.SECKILL_ORDERS, userId, orderRecode);
 
-        // 5.TODO 更新数据的库存
+        // 5.更新库存
+        this.updateStockCount(skuId);
+
+    }
+
+    /**更新库存*/
+    private void updateStockCount(Long skuId) {
+        // 查询商品数量
+        Long stockCount = redisTemplate.opsForList().size(RedisConst.SECKILL_STOCK_PREFIX + skuId);
+        if (stockCount % 2 == 0) {
+            SeckillGoods seckillGood = getSeckillGood(skuId.toString());
+            seckillGood.setStockCount(stockCount.intValue());
+            // 更新缓存
+            redisTemplate.opsForHash().put(RedisConst.SECKILL_GOODS, skuId.toString(), seckillGood);
+            // 更新数据库
+            baseMapper.updateById(seckillGood);
+        }
+
     }
 
     /**查询订单状态*/
     @Override
     public Result checkOrder(Long skuId, String userId) {
-        // TODO 查询订单状态
-        Boolean hasKey = redisTemplate.hasKey(RedisConst.SECKILL_USER + userId);
+        // 1.判断用户是否还在缓存中
+        Boolean isSeckillUser = redisTemplate.hasKey(RedisConst.SECKILL_USER + userId);
+        if (isSeckillUser) {
+            // 2.用户存在，判断用户是否是否生成预订单
+            Boolean isOrderRecode = redisTemplate.opsForHash().hasKey(RedisConst.SECKILL_ORDERS, userId);
+            if (isOrderRecode) {
+                // 用户预订单已经生成，说明秒杀成功，提示【用户秒杀成功，去下单】
+                OrderRecode orderRecode = (OrderRecode) redisTemplate.opsForHash().get(RedisConst.SECKILL_ORDERS, userId);
+                return Result.build(orderRecode, ResultCodeEnum.SECKILL_SUCCESS);
+            }
+        }
 
-        return null;
+        // 3.判断用户是否正式下单，提示用户【下单成功，查看订单】
+        Boolean isSeckillGoods = redisTemplate.opsForHash().hasKey(RedisConst.SECKILL_ORDERS_USERS, userId);
+        if (isSeckillGoods) {
+            String orderId = (String) redisTemplate.opsForHash().get(RedisConst.SECKILL_ORDERS_USERS, userId);
+            return Result.build(orderId, ResultCodeEnum.SECKILL_ORDER_SUCCESS);
+        }
+
+        // 4.查看库存，此时用户正在抢购，但是库存为空，提示用户【已售罄】
+        String checkStock = (String) CacheHelper.get(skuId.toString());
+        if ("0".equals(checkStock)) {
+            return Result.build(null, ResultCodeEnum.SECKILL_FINISH);
+        }
+
+        // 用户不在缓存中，提示用户【排队中】
+        return Result.build(null, ResultCodeEnum.SECKILL_RUN);
     }
 }
