@@ -1,7 +1,7 @@
 package com.atguigu.gmall.user.service.impl;
 
 import com.atguigu.gmall.common.constant.RedisConst;
-import com.atguigu.gmall.common.result.Result;
+import com.atguigu.gmall.common.service.RabbitService;
 import com.atguigu.gmall.model.user.UserAddress;
 import com.atguigu.gmall.model.user.UserInfo;
 import com.atguigu.gmall.user.mapper.UserAddressMapper;
@@ -36,6 +36,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserAddressMapper userAddressMapper;
 
+    @Autowired
+    private RabbitService rabbitService;
+
     /**
      * 获取登录信息
      *
@@ -52,6 +55,10 @@ public class UserServiceImpl implements UserService {
         wrapper.eq("passwd", DigestUtils.md5DigestAsHex(passwd.getBytes()));
 
         UserInfo info = userMapper.selectOne(wrapper);
+
+        // 用户登录成功，使用rabbitmq发送消息合并购物车
+
+
         return info;
     }
 
