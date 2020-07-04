@@ -9,12 +9,18 @@ import com.atguigu.gmall.common.result.ResultCodeEnum;
 import com.atguigu.gmall.common.util.MD5;
 import com.atguigu.gmall.model.activity.OrderRecode;
 import com.atguigu.gmall.model.activity.SeckillGoods;
+import com.atguigu.gmall.model.order.OrderDetail;
+import com.atguigu.gmall.model.order.OrderInfo;
+import com.atguigu.gmall.model.user.UserAddress;
+import com.atguigu.gmall.order.client.OrderFeignClient;
+import com.atguigu.gmall.user.client.UserFeignClient;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -22,6 +28,12 @@ public class SeckillGoodsServiceImpl extends ServiceImpl<SeckillGoodsMapper,Seck
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private UserFeignClient userFeignClient;
+
+    @Autowired
+    private OrderFeignClient orderFeignClient;
 
     /**从缓存中查询秒杀商品*/
     @Override
@@ -39,7 +51,7 @@ public class SeckillGoodsServiceImpl extends ServiceImpl<SeckillGoodsMapper,Seck
     @Override
     public void seckillOrder(Long skuId, String userId) {
         // 1. 验证状态位，产品可能随时售罄，mq队列里面可能堆积了十万数据，但是已经售罄了，那么后续流程就没有必要再走了
-        String publish = (String) CacheHelper.get(skuId + "");
+        String publish = (String) CacheHelper.get(skuId.toString());
         if ("0".equals(publish)) {
             // 已售罄
             return;
@@ -119,5 +131,65 @@ public class SeckillGoodsServiceImpl extends ServiceImpl<SeckillGoodsMapper,Seck
 
         // 用户不在缓存中，提示用户【排队中】
         return Result.build(null, ResultCodeEnum.SECKILL_RUN);
+    }
+
+    /**用户确认订单*/
+    @Override
+    public Map<String, Object> trade(String userId) {
+        Map<String, Object> map = new HashMap<>(3);
+        // 获取用户预下单
+        OrderRecode orderRecode = (OrderRecode) redisTemplate.boundHashOps(RedisConst.SECKILL_ORDERS).get(userId);
+        if (orderRecode != null) {
+            SeckillGoods seckillGoods = orderRecode.getSeckillGoods();
+            // 查询用户收货地址
+            Result<List<UserAddress>> result = userFeignClient.getUserAddressList();
+            List<UserAddress> userAddressList = result.getData();
+
+            // 封装订单详情列表
+            List<OrderDetail> detailArrayList = new ArrayList<>();
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setSkuId(seckillGoods.getSkuId());
+            orderDetail.setSkuName(seckillGoods.getSkuName());
+            orderDetail.setImgUrl(seckillGoods.getSkuDefaultImg());
+            orderDetail.setSkuNum(orderRecode.getNum());
+            orderDetail.setOrderPrice(seckillGoods.getCostPrice());
+            detailArrayList.add(orderDetail);
+
+            // 计算总金额
+            OrderInfo orderInfo = new OrderInfo();
+            orderInfo.setOrderDetailList(detailArrayList);
+            orderInfo.sumTotalAmount();
+            BigDecimal totalAmount = orderInfo.getTotalAmount();
+
+            // 封装到map集合
+            map.put("userAddressList", userAddressList);
+            map.put("detailArrayList", detailArrayList);
+            map.put("totalAmount", totalAmount);
+            return map;
+        }
+       return null;
+    }
+
+    /**提交订单*/
+    @Override
+    public Long submitOrder(OrderInfo orderInfo, String userId) {
+
+        // 从缓从中获取预订单
+        OrderRecode orderRecode = (OrderRecode) redisTemplate.boundHashOps(RedisConst.SECKILL_ORDERS).get(userId);
+        if (orderRecode != null) {
+            // 封装订单
+            orderInfo.setUserId(Long.parseLong(userId));
+            Result<Long> result = orderFeignClient.submitOrder(orderInfo);
+            Long orderId = result.getData();
+
+            // 删除缓从中的预订单
+            redisTemplate.opsForHash().delete(RedisConst.SECKILL_ORDERS, userId);
+
+            // 向缓从中添加已经创建的正式订单
+            redisTemplate.opsForHash().put(RedisConst.SECKILL_ORDERS_USERS,userId,orderId.toString());
+
+            return orderId;
+        }
+        return null;
     }
 }

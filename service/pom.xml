@@ -23,6 +23,7 @@
         <module>service-mq</module>
         <module>service-task</module>
         <module>service-seckill</module>
+        <module>service-test</module>
     </modules>
 
     <dependencies>

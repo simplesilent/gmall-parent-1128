@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient("service-seckill")
 public interface SeckillFeignClient {
@@ -16,4 +17,7 @@ public interface SeckillFeignClient {
 
     @GetMapping("/api/activity/seckill/getSeckillGoods/{skuId}")
     Result<SeckillGoods> getSeckillGoods(@PathVariable("skuId") String skuId);
+
+    @GetMapping("/api/activity/seckill/auth/trade")
+    Result<Map<String, Object>> trade();
 }

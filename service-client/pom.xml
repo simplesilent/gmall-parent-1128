@@ -20,6 +20,7 @@
         <module>service-order-client</module>
         <module>serivce-payment-client</module>
         <module>service-seckill-client</module>
+        <module>service-test-client</module>
     </modules>
 
     <dependencies>
