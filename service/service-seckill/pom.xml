@@ -12,6 +12,7 @@
     <artifactId>service-seckill</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.atguigu.gmall</groupId>
             <artifactId>service-user-client</artifactId>

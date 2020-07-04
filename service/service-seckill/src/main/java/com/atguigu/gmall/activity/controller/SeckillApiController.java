@@ -9,6 +9,7 @@ import com.atguigu.gmall.common.util.AuthContextHolder;
 import com.atguigu.gmall.common.util.MD5;
 import com.atguigu.gmall.constant.MqConst;
 import com.atguigu.gmall.model.activity.SeckillGoods;
+import com.atguigu.gmall.model.order.OrderInfo;
 import com.atguigu.gmall.model.user.UserRecode;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/activity/seckill")
@@ -92,4 +94,22 @@ public class SeckillApiController {
         return seckillGoodsService.checkOrder(skuId, userId);
     }
 
+    /**确认订单*/
+    @GetMapping("/auth/trade")
+    public Result<Map<String, Object>> trade(HttpServletRequest request) {
+        String userId = AuthContextHolder.getUserId(request);
+        Map<String, Object> map = seckillGoodsService.trade(userId);
+        return Result.ok(map);
+    }
+
+    /**提交订单*/
+    @PostMapping("/auth/submitOrder")
+    public Result submitOrder(@RequestBody OrderInfo orderInfo,HttpServletRequest request) {
+        String userId = AuthContextHolder.getUserId(request);
+        Long orderId = seckillGoodsService.submitOrder(orderInfo,userId);
+        if (orderId == null) {
+            return Result.fail().message("创建订单失败");
+        }
+        return Result.ok(orderId);
+    }
 }

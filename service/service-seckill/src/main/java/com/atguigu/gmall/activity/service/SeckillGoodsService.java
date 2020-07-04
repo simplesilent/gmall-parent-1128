@@ -2,9 +2,11 @@ package com.atguigu.gmall.activity.service;
 
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.activity.SeckillGoods;
+import com.atguigu.gmall.model.order.OrderInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SeckillGoodsService extends IService<SeckillGoods> {
 
@@ -19,4 +21,10 @@ public interface SeckillGoodsService extends IService<SeckillGoods> {
 
     /**查询订单状态*/
     Result checkOrder(Long skuId, String userId);
+
+    /**确认订单*/
+    Map<String, Object> trade(String userId);
+
+    /**提交订单*/
+    Long submitOrder(OrderInfo orderInfo, String userId);
 }

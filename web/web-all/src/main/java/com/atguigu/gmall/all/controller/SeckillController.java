@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class SeckillController {
@@ -52,8 +53,13 @@ public class SeckillController {
             model.addAttribute("message", "非法请求");
             return "seckill/fail";
         }
-
     }
 
+    @RequestMapping("/seckill/trade.html")
+    public String trade(Model model) {
+        Result<Map<String, Object>> result = seckillFeignClient.trade();
+        model.addAllAttributes(result.getData());
+        return "seckill/trade";
+    }
 
 }
