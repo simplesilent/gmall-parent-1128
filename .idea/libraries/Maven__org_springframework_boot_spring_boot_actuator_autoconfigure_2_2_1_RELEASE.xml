@@ -8,7 +8,10 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-actuator-autoconfigure/2.2.1.RELEASE/spring-boot-actuator-autoconfigure-2.2.1.RELEASE-sources.jar!/" />
+<<<<<<< HEAD
       <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-actuator-autoconfigure/2.2.2.RELEASE/spring-boot-actuator-autoconfigure-2.2.2.RELEASE-sources.jar!/" />
+=======
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
     </SOURCES>
   </library>
 </component>

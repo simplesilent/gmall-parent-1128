@@ -23,11 +23,15 @@
       <module fileurl="file://$PROJECT_DIR$/service/service-payment/service-payment.iml" filepath="$PROJECT_DIR$/service/service-payment/service-payment.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service-product/service-product.iml" filepath="$PROJECT_DIR$/service/service-product/service-product.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-client/service-product-client/service-product-client.iml" filepath="$PROJECT_DIR$/service-client/service-product-client/service-product-client.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/service/service-seckill/service-seckill.iml" filepath="$PROJECT_DIR$/service/service-seckill/service-seckill.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-client/service-seckill-client/service-seckill-client.iml" filepath="$PROJECT_DIR$/service-client/service-seckill-client/service-seckill-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service-task/service-task.iml" filepath="$PROJECT_DIR$/service/service-task/service-task.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service-test/service-test.iml" filepath="$PROJECT_DIR$/service/service-test/service-test.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-client/service-test-client/service-test-client.iml" filepath="$PROJECT_DIR$/service-client/service-test-client/service-test-client.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/service/service-task/service-task.iml" filepath="$PROJECT_DIR$/service/service-task/service-task.iml" />
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
       <module fileurl="file://$PROJECT_DIR$/service/service-tx-test/service-tx-test.iml" filepath="$PROJECT_DIR$/service/service-tx-test/service-tx-test.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service-user/service-user.iml" filepath="$PROJECT_DIR$/service/service-user/service-user.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-client/service-user-client/service-user-client.iml" filepath="$PROJECT_DIR$/service-client/service-user-client/service-user-client.iml" />

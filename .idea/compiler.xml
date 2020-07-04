@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="service-cart" />
+<<<<<<< HEAD
         <module name="ware-manage" />
         <module name="web-util" />
         <module name="serivce-payment-client" />
@@ -16,6 +17,14 @@
         <module name="service-order" />
         <module name="server-gateway" />
         <module name="service-seckill-client" />
+=======
+        <module name="web-util" />
+        <module name="ware-manage" />
+        <module name="serivce-payment-client" />
+        <module name="common-util" />
+        <module name="service-order" />
+        <module name="server-gateway" />
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
         <module name="service-tx-test" />
         <module name="service-util" />
         <module name="rabbitmq-util" />
@@ -26,6 +35,7 @@
         <module name="service-item" />
         <module name="service-task" />
         <module name="service-cart-client" />
+<<<<<<< HEAD
         <module name="service-test" />
         <module name="model" />
         <module name="service-item-client" />
@@ -33,6 +43,13 @@
         <module name="service-product-client" />
         <module name="service-mq" />
         <module name="service-list-client" />
+=======
+        <module name="model" />
+        <module name="service-item-client" />
+        <module name="service-list-client" />
+        <module name="service-product-client" />
+        <module name="service-mq" />
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
         <module name="service-list" />
         <module name="service-user-client" />
         <module name="service-product" />
@@ -60,11 +77,15 @@
       <module name="service-payment" target="1.8" />
       <module name="service-product" target="1.8" />
       <module name="service-product-client" target="1.8" />
+<<<<<<< HEAD
       <module name="service-seckill" target="1.8" />
       <module name="service-seckill-client" target="1.8" />
       <module name="service-task" target="1.8" />
       <module name="service-test" target="1.8" />
       <module name="service-test-client" target="1.8" />
+=======
+      <module name="service-task" target="1.8" />
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
       <module name="service-tx-test" target="1.8" />
       <module name="service-user" target="1.8" />
       <module name="service-user-client" target="1.8" />
@@ -94,11 +115,15 @@
       <module name="service-payment" options="-parameters" />
       <module name="service-product" options="-parameters" />
       <module name="service-product-client" options="-parameters" />
+<<<<<<< HEAD
       <module name="service-seckill" options="-parameters" />
       <module name="service-seckill-client" options="-parameters" />
       <module name="service-task" options="-parameters" />
       <module name="service-test" options="-parameters" />
       <module name="service-test-client" options="-parameters" />
+=======
+      <module name="service-task" options="-parameters" />
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
       <module name="service-tx-test" options="-parameters" />
       <module name="service-user" options="-parameters" />
       <module name="service-user-client" options="-parameters" />

@@ -9,7 +9,10 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/service-client/service-item-client/pom.xml" />
         <option value="$PROJECT_DIR$/service-client/service-order-client/pom.xml" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/service/service-seckill/pom.xml" />
+=======
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
       </list>
     </option>
   </component>

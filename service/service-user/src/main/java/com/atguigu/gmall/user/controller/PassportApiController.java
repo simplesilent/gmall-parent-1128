@@ -2,17 +2,26 @@ package com.atguigu.gmall.user.controller;
 
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.common.util.AuthContextHolder;
+<<<<<<< HEAD
 import com.atguigu.gmall.model.user.UserAddress;
 import com.atguigu.gmall.model.user.UserInfo;
 import com.atguigu.gmall.user.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+=======
+import com.atguigu.gmall.model.user.UserInfo;
+import com.atguigu.gmall.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,7 +41,14 @@ public class PassportApiController {
 
     /**用户登录*/
     @PostMapping("/login")
+<<<<<<< HEAD
     public Result login(@RequestBody UserInfo userInfo) {
+=======
+    public Result login(@RequestBody UserInfo userInfo,HttpServletRequest request) {
+        String userId = AuthContextHolder.getUserId(request);
+        String userTempId = AuthContextHolder.getUserTempId(request);
+
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
         // 根据用户登录的信息从数据库中获取用户信息
         UserInfo info = userService.login(userInfo);
 

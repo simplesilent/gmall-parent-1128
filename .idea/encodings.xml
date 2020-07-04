@@ -25,8 +25,11 @@
     <file url="file://$PROJECT_DIR$/service-client/service-order-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-client/service-product-client" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-client/service-product-client/src/main/java" charset="UTF-8" />
+<<<<<<< HEAD
     <file url="file://$PROJECT_DIR$/service-client/service-seckill-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-client/service-test-client/src/main/java" charset="UTF-8" />
+=======
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
     <file url="file://$PROJECT_DIR$/service-client/service-user-client" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-client/service-user-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-cart" charset="UTF-8" />
@@ -40,9 +43,13 @@
     <file url="file://$PROJECT_DIR$/service/service-payment/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-product" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-product/src/main/java" charset="UTF-8" />
+<<<<<<< HEAD
     <file url="file://$PROJECT_DIR$/service/service-seckill/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-task/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-test/src/main/java" charset="UTF-8" />
+=======
+    <file url="file://$PROJECT_DIR$/service/service-task/src/main/java" charset="UTF-8" />
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
     <file url="file://$PROJECT_DIR$/service/service-tx-test" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-tx-test/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service/service-user" charset="UTF-8" />

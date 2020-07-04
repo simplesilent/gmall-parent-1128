@@ -11,5 +11,15 @@
 
     <artifactId>service-user</artifactId>
 
+<<<<<<< HEAD
+=======
+    <dependencies>
+        <dependency>
+            <groupId>com.atguigu.gmall</groupId>
+            <artifactId>rabbitmq-util</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+>>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
 
 </project>
