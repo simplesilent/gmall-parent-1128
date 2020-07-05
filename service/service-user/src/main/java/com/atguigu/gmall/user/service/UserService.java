@@ -1,6 +1,5 @@
 package com.atguigu.gmall.user.service;
 
-import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.model.user.UserAddress;
 import com.atguigu.gmall.model.user.UserInfo;
 
@@ -19,7 +18,7 @@ public interface UserService {
     /**
      * 获取登录信息
      */
-    UserInfo login(UserInfo userInfo);
+    UserInfo login(UserInfo userInfo,String userTempId);
 
     /**
      * 向Redis中存放token

@@ -1,11 +1,8 @@
 package com.atguigu.gmall.user.service.impl;
 
 import com.atguigu.gmall.common.constant.RedisConst;
-<<<<<<< HEAD
-import com.atguigu.gmall.common.result.Result;
-=======
 import com.atguigu.gmall.common.service.RabbitService;
->>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
+import com.atguigu.gmall.constant.MqConst;
 import com.atguigu.gmall.model.user.UserAddress;
 import com.atguigu.gmall.model.user.UserInfo;
 import com.atguigu.gmall.user.mapper.UserAddressMapper;
@@ -18,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,19 +39,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserAddressMapper userAddressMapper;
 
-<<<<<<< HEAD
-=======
     @Autowired
     private RabbitService rabbitService;
 
->>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
     /**
      * 获取登录信息
      *
      * @param userInfo
      */
     @Override
-    public UserInfo login(UserInfo userInfo) {
+    public UserInfo login(UserInfo userInfo,String userTempId) {
         // 获取参数
         String loginName = userInfo.getLoginName();
         String passwd = userInfo.getPasswd();
@@ -62,13 +58,14 @@ public class UserServiceImpl implements UserService {
         wrapper.eq("passwd", DigestUtils.md5DigestAsHex(passwd.getBytes()));
 
         UserInfo info = userMapper.selectOne(wrapper);
-<<<<<<< HEAD
-=======
 
-        // 用户登录成功，使用rabbitmq发送消息合并购物车
+        // 用户登录，使用rabbitmq发送消息合并购物车
+        Long userId = info.getId();
+        Map<String, String> map = new HashMap<>();
+        map.put("userId", userId.toString());
+        map.put("userTempId", userTempId);
+        rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_CART_USER, MqConst.ROUTING_CART_USER, map);
 
-
->>>>>>> 413797af890e3fe47d5810a05ebc1ea881c560f7
         return info;
     }
 

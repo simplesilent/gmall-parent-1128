@@ -24,6 +24,7 @@
         <module>service-task</module>
         <module>service-seckill</module>
         <module>service-test</module>
+        <module>service-comment</module>
     </modules>
 
     <dependencies>

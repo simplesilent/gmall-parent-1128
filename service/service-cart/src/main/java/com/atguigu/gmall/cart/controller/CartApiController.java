@@ -5,15 +5,14 @@ import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.common.util.AuthContextHolder;
 import com.atguigu.gmall.model.cart.CartInfo;
 import com.atguigu.gmall.model.product.SkuInfo;
-import org.apache.catalina.User;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * CartController
@@ -57,7 +56,10 @@ public class CartApiController {
         String userId = AuthContextHolder.getUserId(request);
         String userTempId = AuthContextHolder.getUserTempId(request);
 
-        List<CartInfo> cartInfos = cartInoService.cartList(userId,userTempId);
+        if (StringUtils.isEmpty(userId)) {
+            userId = userTempId;
+        }
+        List<CartInfo> cartInfos = cartInoService.getCartList(userId);
         return Result.ok(cartInfos);
     }
 

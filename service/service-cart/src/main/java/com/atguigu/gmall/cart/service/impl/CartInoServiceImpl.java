@@ -12,13 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import sun.swing.StringUIClientPropertyKey;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -88,7 +86,7 @@ public class CartInoServiceImpl implements CartInoService {
     }
 
     @Override
-    public List<CartInfo> cartList(String userId,String userTempId) {
+    public List<CartInfo> mergeCart(String userId,String userTempId) {
         List<CartInfo> cartInfoList = new ArrayList<>();
 
         // 未登录：根据临时用户ID获取未登录的购物车数据
@@ -153,7 +151,8 @@ public class CartInoServiceImpl implements CartInoService {
     }
 
     /**查询购物车*/
-    private List<CartInfo> getCartList(String userIdParam) {
+    @Override
+    public List<CartInfo> getCartList(String userIdParam) {
         List<CartInfo> cartInfoList = null;
         // 先从缓存中查询
         cartInfoList = redisTemplate.opsForHash().values(RedisConst.USER_KEY_PREFIX + userIdParam + RedisConst.USER_CART_KEY_SUFFIX);

@@ -70,6 +70,11 @@ public class MqConst {
     public static final String ROUTING_TASK_18 = "seckill.task.18";
     public static final String QUEUE_TASK_18  = "queue.task.18";
 
-
+    /**
+     * 合并购物车
+     */
+    public static final String EXCHANGE_DIRECT_CART_USER = "exchange.direct.cart.user";
+    public static final String ROUTING_CART_USER = "cart.user";
+    public static final String QUEUE_CART_USER  = "queue.cart.user";
 
 }

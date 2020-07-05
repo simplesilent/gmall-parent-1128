@@ -34,10 +34,10 @@ public class PaymentServiceImpl implements PaymentService {
     private AlipayClient alipayClient;
 
     @Autowired
-    private OrderFeignClient orderFeignClient;
+    private PaymentInfoMapper paymentInfoMapper;
 
     @Autowired
-    private PaymentInfoMapper paymentInfoMapper;
+    private OrderFeignClient orderFeignClient;
 
     @Autowired
     private RabbitService rabbitService;
@@ -96,13 +96,16 @@ public class PaymentServiceImpl implements PaymentService {
         // 保存支付信息
         PaymentInfo paymentInfo = new PaymentInfo();
         paymentInfo.setOutTradeNo(orderInfo.getOutTradeNo());
-        paymentInfo.setOrderId(orderId);
+        paymentInfo.setOrderId(orderInfo.getId());
         paymentInfo.setPaymentType(PaymentType.ALIPAY.getComment());
         paymentInfo.setTotalAmount(orderInfo.getTotalAmount());
         paymentInfo.setSubject(orderInfo.getOrderDetailList().get(0).getSkuName());
         paymentInfo.setPaymentStatus(PaymentStatus.UNPAID.name());
         paymentInfo.setCreateTime(new Date());
         paymentInfoMapper.insert(paymentInfo);
+
+        // 发送消息对列，调用支付查询接口，如果支付成功，则进入支付后的状态后的操作
+
 
         return form;
     }

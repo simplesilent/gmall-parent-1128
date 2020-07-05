@@ -18,7 +18,9 @@ public interface CartInoService {
      */
     SkuInfo addCart(String userId, String userTempId, Long skuId, Integer skuNum);
 
-    List<CartInfo> cartList(String userId,String userTempId);
+    List<CartInfo> mergeCart(String userId,String userTempId);
+
+    List<CartInfo> getCartList(String userIdParam);
 
     void deleteCart(String userId, Long skuId);
 

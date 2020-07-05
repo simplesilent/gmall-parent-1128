@@ -16,6 +16,8 @@ public class PaymentApiController {
     @GetMapping("/alipay/submit/{orderId}")
     public String alipaySubmit(@PathVariable("orderId") Long orderId) {
         String form = paymentService.alipaySubmit(orderId);
+        System.out.println(form);
+
         return form;
     }
 

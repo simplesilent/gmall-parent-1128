@@ -9,14 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-user</artifactId>
+    <artifactId>service-comment</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.atguigu.gmall</groupId>
-            <artifactId>rabbitmq-util</artifactId>
-            <version>1.0</version>
-        </dependency>
-    </dependencies>
 
 </project>
