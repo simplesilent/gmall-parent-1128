@@ -71,9 +71,6 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 向Redis中存放token
-     *
-     * @param token
-     * @param userId
      */
     @Override
     public void putToken(String token, String userId) {

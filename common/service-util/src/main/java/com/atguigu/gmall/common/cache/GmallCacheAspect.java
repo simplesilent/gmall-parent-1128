@@ -1,11 +1,8 @@
 package com.atguigu.gmall.common.cache;
 
-import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.common.constant.RedisConst;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -55,7 +52,7 @@ public class GmallCacheAspect {
         Class returnType = signature.getReturnType();
 
         GmallCache gmallCache = signature.getMethod().getAnnotation(GmallCache.class);
-        // 缓存的可以：如cache:skuinfo
+        // 缓存k-v：如cache:skuinfo
         String key = gmallCache.prefix() + Arrays.asList(args).toString();
 
         // ===============================操作=============================
@@ -65,7 +62,7 @@ public class GmallCacheAspect {
             return result;
         }
 
-        // 如果缓从不为空，需要查询数据库
+        // 如果缓从为空，需要查询数据库
         // 查询数据库需要使用分布式锁
         String redisKeyLock = key + ":lock";
         RLock lock = redissonClient.getLock(redisKeyLock);
@@ -76,7 +73,7 @@ public class GmallCacheAspect {
                 result = joinPoint.proceed(args);
                 // 如果从数据中查询的结果为空
                 if (result == null) {
-                    // 设置空对象，防止后面的请求持续访问
+                    // 设置空对象，防止后面的请求持续访问 ---- 可以防止缓存穿透
                     Object o = new Object();
                     redisTemplate.opsForValue().set(key, o, RedisConst.SKULOCK_EXPIRE_PX1, TimeUnit.SECONDS);
                 }
@@ -93,9 +90,8 @@ public class GmallCacheAspect {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         } finally {
-
+            lock.unlock();
         }
-
         return result;
     }
 
