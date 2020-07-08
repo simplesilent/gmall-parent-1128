@@ -1,10 +1,5 @@
 package com.atguigu.gmall.test.interview.singleton;
 
-/**
- * @Author simplesilent
- * @Date: 2020/7/7 06:50
- * @Description 单例模式---懒汉式:DCL + volatile
- */
 public class Singleton7 {
     private static volatile Singleton7 instance;
 

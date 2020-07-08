@@ -1,10 +1,5 @@
 package com.atguigu.gmall.test.interview.singleton;
 
-/**
- * @Author simplesilent
- * @Date: 2020/7/6 23:03
- * @Description 单例模式----饿汉式：普通
- */
 public class Singleton1 {
 
     private static final Singleton1 INSTANCE = new Singleton1();

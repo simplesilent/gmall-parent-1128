@@ -1,10 +1,5 @@
 package com.atguigu.gmall.test.interview.singleton;
 
-/**
- * @Author simplesilent
- * @Date: 2020/7/7 06:42
- * @Description 单例模式---懒汉式：线程不安全
- */
 public class Singleton4 {
 
     private static Singleton4 instance;

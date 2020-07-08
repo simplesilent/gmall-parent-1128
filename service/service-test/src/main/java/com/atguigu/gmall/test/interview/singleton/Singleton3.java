@@ -1,10 +1,5 @@
 package com.atguigu.gmall.test.interview.singleton;
 
-/**
- * @Author simplesilent
- * @Date: 2020/7/6 23:35
- * @Description 单例模式----饿汉式：静态代码块
- */
 public class Singleton3 {
 
     private static final Singleton3 INSTANCE;
